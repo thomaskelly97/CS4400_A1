@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>CS4400 Assignment 1</title>
     <div id = "app">
             <h1>Thomas Kelly - Network Applications Assignment 1</h1>
@@ -16,7 +17,7 @@
         
         const myInit = {
             method: 'GET',
-            mode: 'no-cors'
+            //mode: 'no-cors'
         }
         let myVue = new Vue ({
             el: "#app",
@@ -34,12 +35,27 @@
             let myCity = this.city 
             url = "http://localhost:3000/api/" + myCity; 
             console.log(url);
-            const myRequest = new Request(url, myInit);
+
+
             
-            fetch(myRequest).then(function(response){
-                console.log(response); 
-            }).then(function(response) {
-                return response; 
+            const myRequest = new Request(url, myInit);
+            /*
+            console.log("Here is the response")
+            let prom = fetch(myRequest)
+            console.log("Fetched request.")
+            prom.then( (response) => response.json())
+            .then(response => {
+                console.log("getting response")
+                this.info = response.result 
+                console.log(response)
+            }).catch( () => console.log("Error has occured."))*/
+            let data;    
+            
+            fetch(myRequest)
+            .then((response) => response.json() )
+            .then((data) =>  {
+                console.log(data); 
+                return data;
             }).catch(function(e){
                 console.log(e); 
             })
