@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>CS4400 Assignment 1</title>
+    <div id = "app">
+            <h1>Thomas Kelly - Network Applications Assignment 1</h1>
+            <input v-model="city" placeholder="Enter City">
+            <p>Getting weather data for {{city}}</p>
+            <button v-on:click = "buttonHandler01" >Submit</button>
+            <p>{{info}}</p>
+            
+    </div>
+   
+    <script>
+        //import axios from "axios";
+        
+        const myInit = {
+            method: 'GET',
+            mode: 'no-cors'
+        }
+        let myVue = new Vue ({
+            el: "#app",
+            data: {
+                city: "",
+                info: "Content will be displayed here."
+            },
+            methods:{
+                buttonHandler01: getAPI
+            }
+        })
+
+        function getAPI(){
+            console.log("Get API!")
+            let myCity = this.city 
+            url = "http://localhost:3000/api/" + myCity; 
+            const myRequest = new Request(url, myInit);
+            
+            fetch(myRequest).then(function(response){
+                return response; 
+            }).then(function(response) {
+                console.log(response);
+            }).catch(function(e){
+                console.log(e); 
+            })
+            
+            
+           
+
+            /*let prom = fetch("http://localhost:3000/api/" + myCity)
+            prom.then(response => response.json()) 
+            .then(response => {
+                this.random = response.result 
+                console.log(response)
+            }).catch( ()=> console.log("Error has occured."))*/
+        }
+    </script>
+</html>
