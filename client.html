@@ -33,12 +33,13 @@
             console.log("Get API!")
             let myCity = this.city 
             url = "http://localhost:3000/api/" + myCity; 
+            console.log(url);
             const myRequest = new Request(url, myInit);
             
             fetch(myRequest).then(function(response){
-                return response; 
+                console.log(response); 
             }).then(function(response) {
-                console.log(response);
+                return response; 
             }).catch(function(e){
                 console.log(e); 
             })
