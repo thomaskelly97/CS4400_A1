@@ -39,20 +39,11 @@
 
             
             const myRequest = new Request(url, myInit);
-            /*
-            console.log("Here is the response")
-            let prom = fetch(myRequest)
-            console.log("Fetched request.")
-            prom.then( (response) => response.json())
-            .then(response => {
-                console.log("getting response")
-                this.info = response.result 
-                console.log(response)
-            }).catch( () => console.log("Error has occured."))*/
+           
             let data;    
             
             fetch(myRequest)
-            .then((response) => response.json() )
+            .then((response) => response.text() )
             .then((data) =>  {
                 console.log(data); 
                 return data;
@@ -61,14 +52,6 @@
             })
             
             
-           
-
-            /*let prom = fetch("http://localhost:3000/api/" + myCity)
-            prom.then(response => response.json()) 
-            .then(response => {
-                this.random = response.result 
-                console.log(response)
-            }).catch( ()=> console.log("Error has occured."))*/
         }
     </script>
 </html>
