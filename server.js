@@ -1,5 +1,7 @@
 //Thomas Kelly 
 //Student Number = 16323455 
+//The natural 'flow' of the server.js starts further down with the 'app.get()' request handlers. 
+
 "use strict"; 
 
 const express = require("express") 
@@ -7,12 +9,6 @@ const request = require("request")
 const cors = require("cors")
 const app = express() 
 const port = 3000 
-
-
-
-let city = "" 
-let loc = "" 
-
 
 app.use(cors())
 
@@ -155,16 +151,17 @@ function processData(data){
     
 }
 
+//START HERE 
 //default case 
 app.get("/", (req, res) => res.send("Server awaiting request...")) //default condition
 
-//wait for get to app/city_name
+//wait for get request to app/city_name
 app.get("/api/:loc/", (req, res) => {
     let url = ""; 
     //This parses the city name out of the incoming URL
     let urlPart = req.originalUrl;
     let name_size = urlPart.length;
-    let city_name = parseUrl(urlPart,name_size)
+    let city_name = parseUrl(urlPart,name_size); //now we have the city name 
     let returnData; 
     
     //build the requested url with the specified city 
@@ -174,9 +171,9 @@ app.get("/api/:loc/", (req, res) => {
 
     if (!error) {
             res.status(200).send(processData(body) ); //respond with the processed, summarised data
-          }
+          } //processData() function above makes calls to other functions in order to process the data as specified in the assignment 
     else {
-        console.log("Something went wrong")
+        console.log("Something went wrong") //bad request 
     }
           
     })

@@ -13,7 +13,6 @@
     </div>
    
     <script>
-        //import axios from "axios";
         let d_ = ""; 
         let hold=0 ; 
         const myInit = {
@@ -32,32 +31,29 @@
         })
 
         function updateDOM(data){
-            console.log("data",data)
-            myVue.info = data; 
+            myVue.info = data; //update the html doc with the data 
         }
 
         function getAPI(){
             console.log("Get API!")
             let myCity = this.city 
-            url = "http://localhost:3000/api/" + myCity; 
+            url = "http://localhost:3000/api/" + myCity; //build request url to server 
             console.log(url);
 
             const myRequest = new Request(url, myInit);
            
             let data;    
             
-            fetch(myRequest)
-            .then((response) => response.text() )
+            fetch(myRequest) //fetch request to server 
+            .then((response) => response.text() ) //deal with the response 
             .then((data) =>  {
-                //data = data.replace(/\n/g, "<br />");  
-                //data.concat("<pre>", data, "</pre>")
-                console.log(data);
-                updateDOM(data); 
+                console.log(data); 
+                updateDOM(data); //call to update the html file through vue 
                 return data;
             }).catch(function(e){
                 console.log(e); 
             })
-            //return 0 
+             
                     
         }
         
