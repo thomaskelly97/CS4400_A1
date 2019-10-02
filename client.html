@@ -8,13 +8,14 @@
             <input v-model="city" placeholder="Enter City">
             <p>Getting weather data for {{city}}</p>
             <button v-on:click = "buttonHandler01" >Submit</button>
-            <p>{{info}}</p>
+            <pre>{{info}}</pre>
             
     </div>
    
     <script>
         //import axios from "axios";
-        
+        let d_ = ""; 
+        let hold=0 ; 
         const myInit = {
             method: 'GET',
             //mode: 'no-cors'
@@ -30,14 +31,17 @@
             }
         })
 
+        function updateDOM(data){
+            console.log("data",data)
+            myVue.info = data; 
+        }
+
         function getAPI(){
             console.log("Get API!")
             let myCity = this.city 
             url = "http://localhost:3000/api/" + myCity; 
             console.log(url);
 
-
-            
             const myRequest = new Request(url, myInit);
            
             let data;    
@@ -45,13 +49,21 @@
             fetch(myRequest)
             .then((response) => response.text() )
             .then((data) =>  {
-                console.log(data); 
+                //data = data.replace(/\n/g, "<br />");  
+                //data.concat("<pre>", data, "</pre>")
+                console.log(data);
+                updateDOM(data); 
                 return data;
             }).catch(function(e){
                 console.log(e); 
             })
-            
-            
+            //return 0 
+                    
         }
+        
+        
+        
+        
+         
     </script>
 </html>

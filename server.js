@@ -121,22 +121,35 @@ function display5DayWeather(OBJ){
 function processData(data){
     let d = JSON.parse(data)
     let store_data = ""; 
+    let location = ""; 
+    if(d.city != undefined){
+        location = "--> The requested city is "+ d.city.name+ " in "+ d.city.country + "\n";
+        console.log("--> The requested city is ", d.city.name, "in", d.city.country)
+    } else {
+        location = "Nowhere"; 
+    }
     
-    console.log("--> The requested city is ", d.city.name, "in", d.city.country)
-    //01 Deal with rain 
-    let take_rain = rain_(d.list); 
-    store_data = store_data.concat(take_rain);
     
-    //02 Deal with temperature 
-    let take_temp = temp_(d.list)
-    store_data = store_data.concat(take_temp);
+    if(d.list != undefined){
+        store_data = store_data.concat(location);
+        //01 Deal with rain 
+        let take_rain = rain_(d.list); 
+        store_data = store_data.concat(take_rain);
+    
+        //02 Deal with temperature 
+        let take_temp = temp_(d.list)
+        store_data = store_data.concat(take_temp);
 
-    //03 Need to summarise data for the next 5 days 
-    let take_table = display5DayWeather(d); 
-    store_data = store_data.concat(take_table);
+        //03 Need to summarise data for the next 5 days 
+        let take_table = display5DayWeather(d); 
+        store_data = store_data.concat(take_table);
 
-    //Now store_data has all of the necessary summarised data and can be sent to the client 	
-    return store_data;
+        //Now store_data has all of the necessary summarised data and can be sent to the client 	
+        return store_data;
+    } else {
+        return "Please enter a valid city\n"; 
+    }
+    
 }
 
 //default case 
