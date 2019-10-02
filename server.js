@@ -68,6 +68,7 @@ function temp_ (OBJ){
 //display weather conditions for 5 days 
 function display5DayWeather(OBJ){
     let table = ""; //store the table as a string 
+    let date_now = ["", "", "", "", "",]; 
     let curr=0, prev=0,loop_c =0;
     let map = -1; 
     let wind_data= [0,0,0,0,0,0,0]; // hold total wind speed for each day 
@@ -79,20 +80,21 @@ function display5DayWeather(OBJ){
     for(let i = 0; i<OBJ.list.length; i++){ // loop through every 3 hour period every day 
         
         curr =  parseInt((OBJ.list[i].dt_txt).substr(8,2)); //get the current day 
-        if(curr != prev){
+        if(curr != prev){ //if the day is different, it has changed 
             map = map +1 //this map value, maps the day to a number between 0-5 essentially. 
+            date_now[map] = (OBJ.list[i].dt_txt); 
             //onsole.log(map)
         }
         
         
         if(curr == prev || prev == 0){ //if the day is the same as it was last loop 
             wind_data[map] = wind_data[map] +  OBJ.list[i].wind.speed; // add the wind speed to a total
-            temp_data[map] = temp_data[map] +  OBJ.list[i].main.temp;
+            temp_data[map] = temp_data[map] +  OBJ.list[i].main.temp; //add temperatures to temp_Data array 
             
             
             if(OBJ.list[i].rain != undefined){ //don't account for times it does not rain 
                 rain = JSON.stringify(OBJ.list[i].rain); 
-                rain = rain.substr(6,5)
+                rain = rain.substr(6,5) //get rain data out 
                 rain = parseFloat(rain) 
                 if(rain != NaN){
                     rain_data[map] = rain_data[map] + rain; //store the total rainfall for that day
@@ -105,9 +107,9 @@ function display5DayWeather(OBJ){
         prev = curr; 
     }
     //load all data into the table string
-    table = " \t|Wind (m/s) |Rain (mm) |Temperature (C)|\n";
+    table = " \t\t|Wind (m/s) |Rain (mm) |Temperature (C)|\n";
     for(let j =0;j<5;j++){
-         table = table + "Day " + parseInt(j+1) +"   |"+ (wind_data[j]/n[j]).toFixed(2) + "\t\t"+(rain_data[j]).toFixed(2) + "\t\t"+ parseFloat((temp_data[j]/n[j]) - 273.15).toFixed(3)+"  |\n";
+         table = table + "> " + date_now[j].substr(0,10) +"    |"+ (wind_data[j]/n[j]).toFixed(2) + "\t\t"+(rain_data[j]).toFixed(2) + "\t\t"+ parseFloat((temp_data[j]/n[j]) - 273.15).toFixed(3)+"  |\n";
 
     }
 
@@ -137,14 +139,15 @@ function processData(data){
         store_data = store_data.concat(take_rain);
     
         //02 Deal with temperature 
-        let take_temp = temp_(d.list)
+        let take_temp = temp_(d.list); 
         store_data = store_data.concat(take_temp);
 
         //03 Need to summarise data for the next 5 days 
         let take_table = display5DayWeather(d); 
         store_data = store_data.concat(take_table);
 
-        //Now store_data has all of the necessary summarised data and can be sent to the client 	
+        //Now store_data has all of the necessary summarised data and can be sent to the client 
+        console.log(">> All data successfully compiled into string for sending to client...\n"); 
         return store_data;
     } else {
         return "Please enter a valid city\n"; 
@@ -180,5 +183,5 @@ app.get("/api/:loc/", (req, res) => {
 }
 )
 
-app.listen(3000, ()=> console.log(`Server listening on port ${port}.`))
+app.listen(3000, ()=> console.log(`>> Server listening on port ${port}.`))
 
