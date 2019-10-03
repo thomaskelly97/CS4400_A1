@@ -89,11 +89,16 @@ function display5DayWeather(OBJ){
             
             
             if(OBJ.list[i].rain != undefined){ //don't account for times it does not rain 
-                rain = JSON.stringify(OBJ.list[i].rain); 
-                rain = rain.substr(6,5) //get rain data out 
-                rain = parseFloat(rain) 
-                if(rain != NaN){
-                    rain_data[map] = rain_data[map] + rain; //store the total rainfall for that day
+				if(JSON.stringify(OBJ.list[i].rain).substr(6,5) != ''){
+					rain = JSON.stringify(OBJ.list[i].rain); 
+					rain = rain.substr(6,5) //get rain data out 
+					rain = parseFloat(rain) 
+					if(rain != NaN){
+						rain_data[map] = rain_data[map] + rain; //store the total rainfall for that day
+					} else {
+						rain_data[map] = rain_data[map] + 0;
+					}
+                    
                 }
                      
             }
